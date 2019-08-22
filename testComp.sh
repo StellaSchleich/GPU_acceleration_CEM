@@ -17,15 +17,17 @@ module add chpc/pgi/19.4
 #module load chpc/pgi/19.4
 
 cd /mnt/lustre/users/sschleich/example_2
-
-#echo just prints
 echo -----------------------------------------------------------------------
-#run in current directory ./
 
-echo -------------------------------
-echo Complex
+echo Complex CPU
 gcc testComplex.c -o testComp
 ./testComp
 
+echo -------------------------------
+echo Complex GPU
+pgcc -acc -Minfo=all -ta=nvidia testCompGPU.c -o testCompGPU
+./testCompGPU
+
 
 echo -----------------------------------------------------------------------
+
