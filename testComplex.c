@@ -1,9 +1,14 @@
 
 #include <stdio.h>      
 #include <complex.h> 
-#include "timer.h"  
+#include "timer.h"
+#define SIZE_N 4096
+#define SIZE_M 4096
+
 
 int main() {
+	
+	/*
 
     double complex z1 = 1.0 + 3.0 * I;
     double complex z2 = 1.0 - 4.0 * I;
@@ -28,26 +33,37 @@ int main() {
     double complex conjugate = conj(z1);
     printf("The conjugate of Z1 = %.2f %+.2fi\n", creal(conjugate), cimag(conjugate));
     
-    printf(" --------- MATRIX --------- \n");
-    double complex a[3] = {1, 2, 3}; 
-    double b[3] = {4, 5, 6 };
-    double complex complex_b[3];
+    */
+    double complex a[SIZE_N][SIZE_M]; 
+    double complex b[SIZE_N ][SIZE_M];
+    double complex sumAr[SIZE_N ][SIZE_M]; 
+   
+      
+	StartTimer();
     
-    
-    //Making b complex 
-    //OR b[3] = {4*I, 5*I, 6*I};
-    for( int i = 0; i< 3; i++){
-        complex_b[i] = b[i]*I;
-        printf(" complex b[%d]= %.2f %+.2fi\n", i, creal(complex_b[i]), cimag(complex_b[i]) );
+    for( int i = 0; i<SIZE_M; i++){
+        for(int j = 0 ; j<SIZE_N; j++){
+            a[i][j] = i+j;
+            b[i][j] = (i+j)*I;
+            //printf(" complex b[%d]= %.2f %+.2fi\n", i, creal(b[i]), cimag(b[i]) );
+            //printf(" complex b[%d][%d]= %.2f %+.2fi", i,j,b[i][j] , b[i][j] );
+        }
+        //printf("\n");
     }
     
+  
     
-    double complex sumAr[3]; 
-    for( int i = 0; i < 3; i++){
-        sumAr[i] = a[i] + complex_b[i];
-        printf("SUM: %.2f + %.2fi \n", sumAr[i]);
+    for( int i = 0; i<SIZE_M; i++){
+        for(int j = 0 ; j<SIZE_N; j++){
+            sumAr[i][j] = a[i][j] + b[i][j];
+            //printf("%.2f + %.2fi   ", sumAr[i][j]);
+        }
+         //printf("\n");
     }
+	double runtime = GetTimer();
+	printf("totalCPU: %f s\n", runtime / 1000.f);
     
+
     
 
     return 0;
