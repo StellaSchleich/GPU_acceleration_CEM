@@ -15,20 +15,21 @@ int main() {
 	
 	StartTimer();
 	
-		
-	
-        #pragma acc parallel loop 
+	#pragma acc data copyin(a,b) copyout(sumAr)
+	{
+        #pragma acc parallel loop independent
           for( int i = 0; i<SIZE_M; i++){
-			for(int j = 0 ; j<SIZE_N; j++){
-				a[i][j] = i+j;
-				b[i][j] = (i+j)*I;
+				for(int j = 0 ; j<SIZE_N; j++){	
+					a[i][j] = i+j;
+					b[i][j] = (i+j)*I;
             //printf(" complex b[%d]= %.2f %+.2fi\n", i, creal(b[i]), cimag(b[i]) );
             //printf(" complex b[%d][%d]= %.2f %+.2fi", i,j,b[i][j] , b[i][j] );
-			}
+				}
         //printf("\n");
-		}
-
-        #pragma acc parallel loop
+			}
+		
+	
+        #pragma acc parallel loop independent
 			for( int i = 0; i<SIZE_M; i++){
 				for(int j = 0 ; j<SIZE_N; j++){
 					sumAr[i][j] = a[i][j] + b[i][j];
@@ -37,10 +38,8 @@ int main() {
          //printf("\n");
 			}
 			
-		
-    
-		
-		
+	}
+
 		
 	
 	double runtime = GetTimer();
